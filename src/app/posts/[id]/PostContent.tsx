@@ -18,7 +18,6 @@ interface PostContentProps {
 }
 
 export default function PostContent({ post }: PostContentProps) {
-  // Fixed TypeScript components with proper typing
   const mdComponents: Components = {
     code(props) {
       const { children, className, ...rest } = props
@@ -27,7 +26,7 @@ export default function PostContent({ post }: PostContentProps) {
       
       return !inline && match ? (
         <SyntaxHighlighter
-          style={dracula as any} // Type assertion for the style prop
+          style={dracula} // ✅ REMOVED 'as any'
           language={match[1]}
           PreTag="div"
         >
@@ -149,7 +148,6 @@ export default function PostContent({ post }: PostContentProps) {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Back Button */}
         <Link
           href="/"
           className="inline-flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline mb-8"
