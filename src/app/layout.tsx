@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | Blog',
     default: 'Blog - Unleash Your Thoughts',
   },
-  description: 'Dive into a world of captivating stories, insights, and creative ideas. Explore our collection of curated blog posts and fuel your curiosity.',
+  description: 'Explore insightful articles, inspiring stories, and expert perspectives on technology, creativity, and personal growth. Stay informed and inspired with our curated blog content.',
   keywords: ['blog', 'articles', 'stories', 'insights', 'creativity', 'writing', 'technology', 'programming'],
   authors: [{ name: 'Jatin Maurya', url: 'https://www.mauryajatin.me' }],
   creator: 'Jatin Maurya',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Blog - Unleash Your Thoughts',
     title: 'Blog - Unleash Your Thoughts',
-    description: 'Dive into a world of captivating stories, insights, and creative ideas.',
+    description: 'Explore insightful articles, inspiring stories, and expert perspectives on technology, creativity, and personal growth.',
     images: [
       {
         url: '/og-image.jpg',
@@ -46,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@yourusername',
+    creator: '@mauryajatin45',
     title: 'Blog - Unleash Your Thoughts',
-    description: 'Dive into a world of captivating stories, insights, and creative ideas.',
+    description: 'Explore insightful articles, inspiring stories, and expert perspectives on technology, creativity, and personal growth.',
     images: ['/og-image.jpg'],
   },
   robots: {
