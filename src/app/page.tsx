@@ -124,7 +124,7 @@ function ErrorFallback({ error, retry }: { error: Error; retry?: () => void }) {
           Oops! Something went wrong
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          We couldn't load the blog posts. This might be a temporary issue with our servers.
+          We couldn&apos;t load the blog posts. This might be a temporary issue with our servers.
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
           Error: {error.message}
