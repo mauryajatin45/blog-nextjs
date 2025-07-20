@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { Components } from 'react-markdown'
 
 interface Post {
   _id: string
@@ -39,6 +40,25 @@ export default function PostsList({ initialData }: PostsListProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [sortBy, setSortBy] = useState('newest')
+
+  // Simple preview components with proper TypeScript (no visual changes)
+  const previewComponents: Components = {
+    ul: ({ children, ...props }) => (
+      <ul className="list-disc pl-4 mb-2" {...props}>
+        {children}
+      </ul>
+    ),
+    ol: ({ children, ...props }) => (
+      <ol className="list-decimal pl-4 mb-2" {...props}>
+        {children}
+      </ol>
+    ),
+    strong: ({ children, ...props }) => (
+      <strong className="font-bold text-white" {...props}>
+        {children}
+      </strong>
+    ),
+  }
 
   const fetchPosts = async () => {
     setLoading(true)
@@ -145,7 +165,10 @@ export default function PostsList({ initialData }: PostsListProps) {
                   {post.title}
                 </h2>
                 <div className="prose prose-sm dark:prose-invert text-gray-600 dark:text-gray-300 mb-3 h-24 overflow-hidden">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={previewComponents}
+                  >
                     {truncated}
                   </ReactMarkdown>
                 </div>

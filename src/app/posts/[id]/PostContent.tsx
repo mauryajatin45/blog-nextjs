@@ -10,16 +10,24 @@ import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { format } from 'date-fns'
 import { FiShare2, FiClock, FiCalendar, FiEdit, FiArrowLeft } from 'react-icons/fi'
 import { Post } from '@/types'
+import { Components } from 'react-markdown'
 
 interface PostContentProps {
   post: Post
   readingTime?: number
 }
 
+interface CodeProps {
+  inline?: boolean
+  className?: string
+  children: React.ReactNode
+}
+
 export default function PostContent({ post }: PostContentProps) {
-  const mdComponents = {
-    code({ inline, className = '', children, ...props }: any) {
-      const match = /language-(\w+)/.exec(className)
+  // Original component styling with proper TypeScript
+  const mdComponents: Components = {
+    code: ({ inline, className, children, ...props }: CodeProps) => {
+      const match = /language-(\w+)/.exec(className || '')
       return !inline && match ? (
         <SyntaxHighlighter
           style={dracula}
@@ -38,30 +46,38 @@ export default function PostContent({ post }: PostContentProps) {
         </code>
       )
     },
-    h2: ({ node, ...props }: any) => (
-      <h2 className="text-2xl font-bold mt-8 mb-4" {...props} />
+    h2: ({ children, ...props }) => (
+      <h2 className="text-2xl font-bold mt-8 mb-4" {...props}>
+        {children}
+      </h2>
     ),
-    ul: ({ node, ...props }: any) => (
-      <ul className="list-disc pl-6 space-y-2 my-4" {...props} />
+    ul: ({ children, ...props }) => (
+      <ul className="list-disc pl-6 space-y-2 my-4" {...props}>
+        {children}
+      </ul>
     ),
-    ol: ({ node, ...props }: any) => (
-      <ol className="list-decimal pl-6 space-y-2 my-4" {...props} />
+    ol: ({ children, ...props }) => (
+      <ol className="list-decimal pl-6 space-y-2 my-4" {...props}>
+        {children}
+      </ol>
     ),
-    strong: ({ children, ...props }: any) => (
+    strong: ({ children, ...props }) => (
       <strong className="font-bold text-purple-400" {...props}>
         {children}
       </strong>
     ),
-    em: ({ children, ...props }: any) => (
+    em: ({ children, ...props }) => (
       <em className="font-bold" {...props}>
         {children}
       </em>
     ),
-    blockquote: ({ node, ...props }: any) => (
+    blockquote: ({ children, ...props }) => (
       <blockquote
         className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic text-gray-600 dark:text-gray-400 my-4"
         {...props}
-      />
+      >
+        {children}
+      </blockquote>
     ),
   }
 
