@@ -17,68 +17,112 @@ interface PostContentProps {
   readingTime?: number
 }
 
-interface CodeProps {
-  inline?: boolean
-  className?: string
-  children: React.ReactNode
-}
-
 export default function PostContent({ post }: PostContentProps) {
-  // Original component styling with proper TypeScript
+  // Fixed TypeScript components with proper typing
   const mdComponents: Components = {
-    code: ({ inline, className, children, ...props }: CodeProps) => {
+    code(props) {
+      const { children, className, ...rest } = props
       const match = /language-(\w+)/.exec(className || '')
+      const inline = 'inline' in props ? props.inline : false
+      
       return !inline && match ? (
         <SyntaxHighlighter
-          style={dracula}
+          style={dracula as any} // Type assertion for the style prop
           language={match[1]}
           PreTag="div"
-          {...props}
         >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       ) : (
         <code
           className="bg-gray-200 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono"
-          {...props}
+          {...rest}
         >
           {children}
         </code>
       )
     },
-    h2: ({ children, ...props }) => (
-      <h2 className="text-2xl font-bold mt-8 mb-4" {...props}>
-        {children}
-      </h2>
-    ),
-    ul: ({ children, ...props }) => (
-      <ul className="list-disc pl-6 space-y-2 my-4" {...props}>
-        {children}
-      </ul>
-    ),
-    ol: ({ children, ...props }) => (
-      <ol className="list-decimal pl-6 space-y-2 my-4" {...props}>
-        {children}
-      </ol>
-    ),
-    strong: ({ children, ...props }) => (
-      <strong className="font-bold text-purple-400" {...props}>
-        {children}
-      </strong>
-    ),
-    em: ({ children, ...props }) => (
-      <em className="font-bold" {...props}>
-        {children}
-      </em>
-    ),
-    blockquote: ({ children, ...props }) => (
-      <blockquote
-        className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic text-gray-600 dark:text-gray-400 my-4"
-        {...props}
-      >
-        {children}
-      </blockquote>
-    ),
+    h2(props) {
+      const { children, ...rest } = props
+      return (
+        <h2 className="text-2xl font-bold mt-8 mb-4" {...rest}>
+          {children}
+        </h2>
+      )
+    },
+    h3(props) {
+      const { children, ...rest } = props
+      return (
+        <h3 className="text-xl font-semibold mt-6 mb-3" {...rest}>
+          {children}
+        </h3>
+      )
+    },
+    ul(props) {
+      const { children, ...rest } = props
+      return (
+        <ul className="list-disc pl-6 space-y-2 my-4" {...rest}>
+          {children}
+        </ul>
+      )
+    },
+    ol(props) {
+      const { children, ...rest } = props
+      return (
+        <ol className="list-decimal pl-6 space-y-2 my-4" {...rest}>
+          {children}
+        </ol>
+      )
+    },
+    strong(props) {
+      const { children, ...rest } = props
+      return (
+        <strong className="font-bold text-purple-400" {...rest}>
+          {children}
+        </strong>
+      )
+    },
+    em(props) {
+      const { children, ...rest } = props
+      return (
+        <em className="font-bold" {...rest}>
+          {children}
+        </em>
+      )
+    },
+    blockquote(props) {
+      const { children, ...rest } = props
+      return (
+        <blockquote
+          className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic text-gray-600 dark:text-gray-400 my-4"
+          {...rest}
+        >
+          {children}
+        </blockquote>
+      )
+    },
+    p(props) {
+      const { children, ...rest } = props
+      return (
+        <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed" {...rest}>
+          {children}
+        </p>
+      )
+    },
+    a(props) {
+      const { children, href, ...rest } = props
+      return (
+        <a
+          href={href}
+          className="text-blue-600 dark:text-blue-400 hover:underline"
+          target={href?.startsWith('http') ? '_blank' : '_self'}
+          rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+          {...rest}
+        >
+          {children}
+        </a>
+      )
+    },
   }
 
   const handleShare = async () => {
