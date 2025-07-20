@@ -5,7 +5,7 @@ import PostsList from '@/components/PostsList'
 import { PostsResponse } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Home',
+  title: "Home | Jatin Maurya's Blog",
   description: 'Discover amazing blog posts and articles. Dive into a world of captivating stories, insights, and creative ideas.',
   keywords: ['blog', 'articles', 'stories', 'insights', 'creativity', 'writing', 'technology', 'programming'],
   openGraph: {
