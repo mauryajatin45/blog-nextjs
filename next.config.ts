@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     domains: [
       'blogbackend-ecru.vercel.app',
-      'res.cloudinary.com'
+      'res.cloudinary.com',
+      'cdn-icons-png.flaticon.com'  // Add this line
     ],
     remotePatterns: [
       {
@@ -14,6 +15,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn-icons-png.flaticon.com',  // Add this block
         pathname: '/**',
       },
     ],

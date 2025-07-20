@@ -33,7 +33,8 @@ export default function Login() {
       } else {
         setError(data.message || 'Login failed')
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Login error:', error)
       setError('Server error')
     } finally {
       setLoading(false)

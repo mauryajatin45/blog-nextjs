@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
@@ -41,26 +41,32 @@ export default function PostsList({ initialData }: PostsListProps) {
   const [inputValue, setInputValue] = useState('')
   const [sortBy, setSortBy] = useState('newest')
 
-  // Simple preview components with proper TypeScript (no visual changes)
+  // Fixed preview components with proper TypeScript
   const previewComponents: Components = {
-    ul: ({ children, ...props }) => (
-      <ul className="list-disc pl-4 mb-2" {...props}>
-        {children}
-      </ul>
-    ),
-    ol: ({ children, ...props }) => (
-      <ol className="list-decimal pl-4 mb-2" {...props}>
-        {children}
-      </ol>
-    ),
-    strong: ({ children, ...props }) => (
-      <strong className="font-bold text-white" {...props}>
-        {children}
-      </strong>
-    ),
+    ul({ children, ...props }) {
+      return (
+        <ul className="list-disc pl-4 mb-2" {...props}>
+          {children}
+        </ul>
+      )
+    },
+    ol({ children, ...props }) {
+      return (
+        <ol className="list-decimal pl-4 mb-2" {...props}>
+          {children}
+        </ol>
+      )
+    },
+    strong({ children, ...props }) {
+      return (
+        <strong className="font-bold text-white" {...props}>
+          {children}
+        </strong>
+      )
+    },
   }
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     setLoading(true)
     try {
       let url = `https://blogbackend-ecru.vercel.app/api/posts?page=${page}`
@@ -77,13 +83,13 @@ export default function PostsList({ initialData }: PostsListProps) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [page, searchQuery, sortBy])
 
   useEffect(() => {
     if (page !== 1 || searchQuery || sortBy !== 'newest') {
       fetchPosts()
     }
-  }, [page, searchQuery, sortBy])
+  }, [fetchPosts, page, searchQuery, sortBy])
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()

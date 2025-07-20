@@ -2,13 +2,21 @@
 
 import React, { useState, useEffect } from 'react'
 
+interface Post {
+  _id: string
+  title: string
+  content: string
+  category: string
+  createdAt: string
+}
+
 interface SidebarProps {
-  onSelectPost: (post: any) => void
+  onSelectPost: (post: Post) => void
   onCreateNew: () => void
 }
 
 export default function Sidebar({ onSelectPost, onCreateNew }: SidebarProps) {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -55,7 +63,7 @@ export default function Sidebar({ onSelectPost, onCreateNew }: SidebarProps) {
           <div className="text-gray-500 dark:text-gray-400">Loading...</div>
         ) : posts.length > 0 ? (
           <div className="space-y-2">
-            {posts.map((post: any) => (
+            {posts.map((post) => (
               <button
                 key={post._id}
                 onClick={() => onSelectPost(post)}

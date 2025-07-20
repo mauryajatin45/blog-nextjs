@@ -9,6 +9,15 @@ import { Markdown } from 'tiptap-markdown'
 import TurndownService from 'turndown'
 import { marked } from 'marked'
 import Sidebar from '@/components/Sidebar'
+import NextImage from 'next/image'
+
+interface Post {
+  _id: string
+  title: string
+  content: string
+  category: string
+  imageUrl?: string
+}
 
 export default function CreatePost() {
   const [title, setTitle] = useState('')
@@ -37,12 +46,18 @@ export default function CreatePost() {
     bulletListMarker: '-',
   })
 
+  // Fixed: Use Node type and type guard to check if it's an Element
   turndownService.addRule('image', {
     filter: 'img',
-    replacement: (content, node: any) => {
-      const alt = node.alt || ''
-      const src = node.getAttribute('src') || ''
-      return `![${alt}](${src})`
+    replacement: (content, node) => {
+      // Type guard to check if node is an Element
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element
+        const alt = element.getAttribute('alt') || ''
+        const src = element.getAttribute('src') || ''
+        return `![${alt}](${src})`
+      }
+      return content
     }
   })
 
@@ -90,7 +105,7 @@ export default function CreatePost() {
     setError('')
   }
 
-  const loadPostForEditing = (post: any) => {
+  const loadPostForEditing = (post: Post) => {
     setEditingPostId(post._id)
     setTitle(post.title)
     setCategory(post.category || 'General')
@@ -146,7 +161,8 @@ export default function CreatePost() {
       } else {
         setError(data.message || 'Failed to save post')
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Error saving post:', error)
       setError('Server error')
     } finally {
       setLoading(false)
@@ -204,10 +220,11 @@ export default function CreatePost() {
               />
               {imagePreview && (
                 <div className="relative w-full max-w-md h-64">
-                  <img
+                  <NextImage
                     src={imagePreview}
                     alt="Preview"
-                    className="w-full h-full object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                    fill
+                    className="object-cover rounded-lg border border-gray-300 dark:border-gray-600"
                   />
                 </div>
               )}
