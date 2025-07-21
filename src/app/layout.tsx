@@ -85,6 +85,7 @@ export default function RootLayout({
         <link rel="icon" href="/Logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <meta name="theme-color" content="#1f2937" />
         <meta name="color-scheme" content="light dark" />
       </head>
